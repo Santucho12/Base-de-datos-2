@@ -1,0 +1,16 @@
+use('empresa');
+
+/*
+db.empleados.updateMany(
+    {},
+        { $set:{
+            direccion:{
+                ciudad:"Buenos Aires",
+                calle:"Av. Corrientes",
+                numero:1234
+            }
+        }
+    }
+);*/
+
+db.empleados.find();

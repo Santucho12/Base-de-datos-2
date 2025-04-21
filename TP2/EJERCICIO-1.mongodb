@@ -1,0 +1,24 @@
+use('empresa');
+/*
+db.empleados.insertMany([
+    { nombre: "Juan", edad: 30, puesto: "encargado" },
+    { nombre: "Ana", edad: 25, puesto: "administrativa" },
+    { nombre: "Luis", edad: 35, puesto: "encargado" }
+]);
+*/
+db.empleados.find();
+/*
+db.empleados.updateOne(
+    { nombre: "Juan" },
+    { $set: { edad: 59 } }
+);*/
+/*
+db.empleados.updateOne(
+    {nombre : "Luis"},
+    { $set: { puesto: "pasante" } }
+    
+)
+    */
+/*
+db.empleados.deleteOne({ nombre: "Luis" });
+*/

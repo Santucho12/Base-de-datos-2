@@ -1,0 +1,28 @@
+use('productos');
+/*
+db.createCollection('ventas');
+db.ventas.insertMany([
+    { producto: "Producto A", cantidad: 10, precio_unitario: 50 },
+    { producto: "Producto A", cantidad: 5, precio_unitario: 50 },
+    { producto: "Producto B", cantidad: 7, precio_unitario: 100 },
+    { producto: "Producto B", cantidad: 3, precio_unitario: 100 },
+    { producto: "Producto C", cantidad: 8, precio_unitario: 200 }
+
+]);
+*/
+
+
+db.ventas.aggregate([
+    { 
+    $project:{
+        producto:1,
+        total_venta:{$multiply:["$cantidad","$precio_unitario"]}
+    }
+},
+    {
+        $group:{
+        _id:"$producto",
+        total_venta:{$sum:"$total_venta"}
+    }
+}
+]);

@@ -1,0 +1,12 @@
+/*
+replicaSet:
+Es un sistema con varias copias de la base de datos. Si un servidor falla,
+ otro lo reemplaza automáticamente, asegurando que siempre esté disponible. 
+ Además, distribuye las lecturas entre servidores para mejorar el rendimiento.
+
+Sharding:
+Es cuando los datos se reparten entre varios servidores. Esto permite 
+manejar grandes volúmenes de datos sin que el sistema se sobrecargue,
+ y mejora la velocidad al distribuir el trabajo entre diferentes servidores.
+
+*/
