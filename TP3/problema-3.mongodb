@@ -1,0 +1,55 @@
+use('tiendaOnline')
+
+db.ventas.aggregate([
+  {
+    $lookup: {
+      from: "productos",
+      localField: "producto_id",
+      foreignField: "_id",
+      as: "producto"
+    }
+  },
+  { $unwind: "$producto" },
+
+
+  {
+    $group: {
+      _id: {
+        nombreCliente: "$cliente.nombre",
+        productoNombre: "$producto.nombre",
+        categoriaNombre: "$producto.categoria"
+      },
+      cantidadComprada: { $sum: 1 },
+      totalGastadoCliente: { $sum: "$total" },
+      primeraCompra: { $min: "$fecha" },
+      ultimaCompra: { $max: "$fecha" }
+    }
+},
+{  
+    $sort: {
+      cantidadComprada: -1
+    }
+},{
+    $group: {
+      _id: "$_id.nombreCliente",
+      productoFavorito: { $first: "$_id.productoNombre" },
+      categoriaFavorita: { $first: "$_id.categoriaNombre" },
+      totalGastado: { $sum: "$totalGastadoCliente" },
+      numCompras: { $sum: "$cantidadComprada" },
+      primeraCompra: { $min: "$primeraCompra" },
+      ultimaCompra: { $max: "$ultimaCompra" }
+    }
+  },{
+    $project: {
+      nombreCliente: "$_id",
+        productoFavorito: 1,
+        totalGastado: 1,
+        numCompras: 1,
+        categoriaFavorita:1,
+        primeraCompra: 1,
+        ultimaCompra: 1,
+        _id: 0
+    }
+  }
+
+]).pretty()

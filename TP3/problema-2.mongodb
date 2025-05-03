@@ -1,0 +1,29 @@
+use("tiendaOnline");
+
+db.ventas.aggregate([
+  {
+    $group: {
+      _id: {
+        mes: { $month: "$fecha" },
+        producto_id: "$producto_id",
+      },
+      VentasPorProducto: { $sum: "$cantidad" },
+    },
+  },
+  {
+    $group: {
+      _id: "$_id.mes",
+      totalMensual: { $sum: "$VentasPorProducto" },
+      productoMasVendido: { $first: "$_id.producto_id" }, // El primer producto, asumiendo que ya está agrupado por ventas
+    },
+  },
+  {
+    $project: {
+      mesMasVentas: "$_id",
+      totalVentasMensuales: "$totalMensual",
+      productoMasVendido: "$productoMasVendido",
+      _id: 0,
+    },
+  },
+])
+  .pretty();

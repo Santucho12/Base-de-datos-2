@@ -1,0 +1,38 @@
+//Crear un pipeline que obtenga los productos más valorados (puntuación promedio más alta) con al menos 2 valoraciones.
+
+
+use ('tiendaOnline')
+
+db.productos.aggregate([
+    {
+        $unwind:"$valoraciones"
+    },{
+        $group:{
+            _id:"$nombre",
+            cantidadValoraciones:{$sum:1},
+            promedioValoracion:{$avg:"$valoraciones.puntuacion"}
+        }
+
+    },{
+        
+            $match:{
+            cantidadValoraciones:{$gt:1}
+        }
+    
+    },{
+        $project:{
+            nombre:"$_id",
+            cantidadValoraciones:1,
+            promedioValoracion:1,
+            _id:0
+        }
+    },{
+        $sort: {
+          promedioValoracion: -1,
+        }
+    },
+        {
+            $limit: 3
+        }
+
+]).pretty()
