@@ -10,7 +10,7 @@ db.cursos.insertMany([
 
 db.alumnos.insertMany([
     {
-        nombre: "Juan Pérez",
+        nombre: "Juan Pérezz",
         edad: 20,
         id_cursos: [1, 3]  
     },
