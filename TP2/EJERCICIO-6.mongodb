@@ -1,14 +1,6 @@
-use('clientes')
-/*
-db.clientes.insertMany([
-    { nombre: "Juan", edad: 30, puesto: "contable",antiguedad: 5 },
-    { nombre: "AnaMaria", edad: 25, puesto: "administrativa",antiguedad: 2 },
-    { nombre: "Luis", edad: 35, puesto: "encargado",antiguedad: 10 },
-    { nombre: "Pedro", edad: 28, puesto: "vendedor",antiguedad: 3 },
-    { nombre: "Maria", edad: 32, puesto: "gerente",antiguedad: 8 },
-    { nombre: "Javier", edad: 27, puesto: "asistente",antiguedad: 1 }
-]);
-db.clientes.createIndex({ nombre: 1,apellido: 1 }
-);
+use('empresa3');
+db.empleados.getIndexes();
 
-db.clientes.getIndexes();*/
+db.empleados.createIndex(
+    {nombre:1,apellido:1}
+);

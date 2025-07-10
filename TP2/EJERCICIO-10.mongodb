@@ -1,18 +1,17 @@
-use("empresa");
- 
- db.createUser(
-     {
-         user: "admin",
-         pwd: "1234",
-         roles: [
-             "readWrite" // Permisos de lectura y escritura
-         ]
-     }
- );
+use ('empresa2');
 
- 
- 
-  mongodump --db empresa --out ./backups
+db.createUser({
+    user:"admin",
+    pwd:"1234",
+    roles:[{
+        role:"readWrite",
+        db:"empresa2"
+    }]
+});
 
 
- mongorestore --db empresa ./backups
+mongodump --db empresa2 --out ./backups/empresa2
+
+
+
+ mongorestore --db empresa2 ./backups/empresa2

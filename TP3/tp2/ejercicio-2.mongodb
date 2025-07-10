@@ -1,0 +1,30 @@
+use('tiendaOnline2');
+//A
+db.productos.aggregate([
+    {
+        $project:{
+            _id:0,
+            nombre:1,
+            precio:1,
+            precioCompuesto:{$multiply:["$precio",1.21]}
+        }
+    }
+]);
+
+
+//B
+use('tiendaOnline2');
+db.ventas.aggregate([
+    {
+        $project:{
+            _id:1,
+            nombre:"$cliente.nombre",
+            total:1,
+            Descuento:{$multiply:["$total",0.1]}
+        }
+    },{
+        $sort:{
+            total:-1
+        }
+    }
+]);

@@ -1,0 +1,25 @@
+use('tp3');
+// A
+
+
+db.productos.aggregate([
+    {
+        $unwind:"$valoraciones"
+    },
+    {
+        $group:{
+            _id:"$valoraciones.puntuacion",
+            cantidad:{$sum:1}
+        }
+    },{
+        $project:{
+            _id:0,
+            puntuacion:"$_id",
+            cantidad:1
+        }
+    },{
+        $sort:{
+            puntuacion:+1
+        }
+    }
+]);

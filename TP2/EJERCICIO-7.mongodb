@@ -1,30 +1,21 @@
+use('empresa3');
 
-use('instituto');
 
-/*
 db.cursos.insertMany([
-    { _id: 1, nombre: "Matemática" },
-    { _id: 2, nombre: "Historia" },
-    { _id: 3, nombre: "Programación" }
-]);
+    {_id:"py",nombre:"python",duracion:"3 meses",nivel:"intermedio"},
+    {_id:"js",nombre:"javascript",duracion:"2 meses",nivel:"básico"},
+    {_id:"ja",nombre:"java",duracion:"4 meses",nivel:"avanzado"},
+    {_id:"c",nombre:"c++",duracion:"5 meses",nivel:"intermedio"},
+    {_id:"ru",nombre:"ruby",duracion:"3 meses",nivel:"básico"}
+
+])
+
 
 db.alumnos.insertMany([
-    {
-        nombre: "Juan Pérezz",
-        edad: 20,
-        id_cursos: [1, 3]  
-    },
-    {
-        nombre: "Ana Gómez",
-        edad: 22,
-        id_cursos: [2]  
-    },
-    {
-        nombre: "Luis Rodríguez",
-        edad: 21,
-        id_cursos: [1, 2, 3]  
-    }
-]);
-*/
+    { nombre: "juan", edad: 25, id_cursos: ["py", "js"] },
+    { nombre: "maria", edad: 30, id_cursos: ["ja", "c"] },
+    { nombre: "pablo", edad: 22, id_cursos: ["ru", "js"] },
+    { nombre: "lucia", edad: 28, id_cursos: ["py", "ja"] },
+    { nombre: "carlos", edad: 35, id_cursos: ["c", "ru"] }
+])
 
-db.cursos.find();

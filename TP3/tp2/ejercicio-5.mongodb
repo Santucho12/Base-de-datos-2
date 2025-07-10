@@ -1,0 +1,20 @@
+use('tp3');
+
+
+db.ventas.aggregate([
+    {
+        $lookup:{
+            from:"productos",
+            localField:"producto_id",
+            foreignField:"_id",
+            as:"productoDetalles"
+        }
+    },{
+        $unwind:"$productoDetalles"
+    },{
+        $group:{
+            _id:"$productoDetalles.categoria",
+            totalVendido:{$sum:"$total"}
+        }
+    }
+])

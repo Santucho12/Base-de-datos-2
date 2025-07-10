@@ -1,24 +1,39 @@
-use('empresa');
-/*
+use('empresa3');
+db.empleados.find()
+
 db.empleados.insertMany([
-    { nombre: "Juan", edad: 30, puesto: "encargado" },
-    { nombre: "Ana", edad: 25, puesto: "administrativa" },
-    { nombre: "Luis", edad: 35, puesto: "encargado" }
-]);
-*/
-db.empleados.find();
-/*
-db.empleados.updateOne(
-    { nombre: "Juan" },
-    { $set: { edad: 59 } }
-);*/
-/*
-db.empleados.updateOne(
-    {nombre : "Luis"},
-    { $set: { puesto: "pasante" } }
-    
+    {
+        nombre:"juan",
+        edad:32,
+        puesto:"gerente"
+
+    },{
+        nombre:"maria",
+        edad:28,
+        puesto:"desarrolladora"
+
+    },{
+        nombre:"pablo",
+        edad:25,
+        puesto:"diseñador"
+
+    }
+])
+
+
+use('empresa3');
+db.empleados.updateMany(
+    {nombre:"maria"},
+    {$set:{edad:99}}
 )
-    */
-/*
-db.empleados.deleteOne({ nombre: "Luis" });
-*/
+
+use('empresa3');
+db.empleados.deleteMany(
+    {nombre:"maria"}
+)
+
+
+
+
+
+

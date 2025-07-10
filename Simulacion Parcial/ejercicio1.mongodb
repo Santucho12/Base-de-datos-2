@@ -1,0 +1,51 @@
+use('simulacion_parcial2');
+// A
+db.estudiantes.find({
+    $and: [
+        { edad: { $gte: 20 } },
+        { edad: { $lte: 25 } }
+    ]
+})
+use('simulacion_parcial2');
+// B
+db.estudiantes.updateMany(
+    { carrera: "Ingeniería" },
+    { $inc: { promedio: 0.2 } }
+);
+
+use('simulacion_parcial2');
+// C
+db.estudiantes.deleteMany(
+    { promedio: { $lt: 7 } }
+);
+
+use('simulacion_parcial2');
+// D
+
+db.estudiantes.find({
+
+    $or: [
+        { promedio: { $gte: 9 } },
+        { nombre: { $regex: /^m/i } }
+    ]
+})
+
+
+
+
+
+
+
+
+
+// Inserta documentos de muestra
+db.estudiantes.insertMany([
+  { nombre: "María", edad: 22, carrera: "Ingeniería", promedio: 8.5 },
+  { nombre: "Pedro", edad: 19, carrera: "Matemáticas", promedio: 6.8 },
+  { nombre: "Miguel", edad: 25, carrera: "Ingeniería", promedio: 9.2 },
+  { nombre: "Ana",   edad: 24, carrera: "Física",       promedio: 7.5 },
+  { nombre: "Laura", edad: 21, carrera: "Ingeniería", promedio: 6.5 },
+  { nombre: "Jorge", edad: 23, carrera: "Matemáticas",  promedio: 8.0 },
+  { nombre: "Lucía", edad: 20, carrera: "Biología",     promedio: 7.8 },
+  { nombre: "Diego", edad: 26, carrera: "Ingeniería",   promedio: 9.0 }
+]);

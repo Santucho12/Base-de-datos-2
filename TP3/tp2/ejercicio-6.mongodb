@@ -1,0 +1,28 @@
+use('tp3');
+// A
+
+db.ventas.aggregate([
+  {
+    $group:{
+      _id:{$month:"$fecha"},
+      totalVendido:{$sum:"$total"}
+    }
+  }
+]);
+
+// B
+use('tp3');
+
+db.ventas.aggregate([
+  {
+    $group:{
+      _id:{$dayOfWeek:"$fecha"},
+      ventasporDia:{$sum:1}
+    }
+  },{
+    $sort:{
+      ventasporDia:-1
+    }
+  },{
+    $limit:1
+  }]);

@@ -1,17 +1,10 @@
-use('empresa');
-/*
-db.empleados.insertMany([
-    { nombre: "Jano", edad: 30, puesto: "contador" },
-    { nombre: "AnaMaria", edad: 29, puesto: "administrativa" },
-    { nombre: "Fernando", edad: 33, puesto: "encargado" }
-]);*/
-
-
+use('empresa3');
 db.empleados.find(
     {
+
         $and:[
             {edad:{$gt:25}},
-            {edad:{$lt:40}},
+            {edad:{$lt:40}}
         ]
-    }
-)
+
+}).pretty()

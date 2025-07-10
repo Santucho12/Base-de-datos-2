@@ -1,0 +1,27 @@
+use('tp3');
+// A
+
+db.productos.aggregate([
+    {
+        $project:{
+            _id:0,
+            nombre:"cliente.nombre",
+            precio:1,
+            precioConImpuesto:{$multiply:["$precio",1.21]}
+    }
+    }
+]);
+
+
+//b
+use('tp3');
+db.ventas.aggregate([
+    {
+        $project:{
+            _id:1,
+            nombreDelCliente:"$cliente.nombre",
+            total:1,
+            descuento:{$multiply:["$total",0.1]}
+        }
+    }
+])

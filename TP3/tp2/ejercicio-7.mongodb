@@ -1,0 +1,46 @@
+use("tiendaOnline2");
+//A
+db.productos.aggregate([
+    {
+        $project:{
+            nombre:1,
+            precio:1,
+            calificacion:{
+                $cond:{
+                    if:{$lt:["$precio",100]},
+                    then:"economico",
+                    else:{
+                        $cond:{
+                            if:{$lt:["$precio",500]},
+                            then:"estandar",
+                            else:"premium"
+                        }
+                    }
+                }
+            }
+        }
+    }]);
+
+use('tiendaOnline2');
+//B
+db.ventas.aggregate([
+    {
+        $project:{
+            total:1,
+            categoria:{
+                $cond:{
+                    if:{$lt:["$total",200]},
+                    then:"pequeña",
+                    else:{
+                        $cond:{
+                            if:{$lt:["$total",800]},
+                            then:"mediana",
+                            else:"grande"
+
+                        }
+                    }
+                }
+            }
+        }
+    }
+]).pretty();

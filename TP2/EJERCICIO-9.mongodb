@@ -1,12 +1,20 @@
-/*
-replicaSet:
-Es un sistema con varias copias de la base de datos. Si un servidor falla,
- otro lo reemplaza automáticamente, asegurando que siempre esté disponible. 
- Además, distribuye las lecturas entre servidores para mejorar el rendimiento.
+/*🔁 Replica Set - Ventajas resumidas
 
-Sharding:
-Es cuando los datos se reparten entre varios servidores. Esto permite 
-manejar grandes volúmenes de datos sin que el sistema se sobrecargue,
- y mejora la velocidad al distribuir el trabajo entre diferentes servidores.
+Un Replica Set es un conjunto de servidores (nodos) que mantienen copias idénticas de los datos. Uno de ellos actúa como nodo primario, y los otros como nodos secundarios.
 
+
+Alta disponibilidad: si el nodo primario falla, un secundario lo reemplaza automáticamente.
+Tolerancia a fallos: múltiples copias protegen ante caídas o errores.
+Lecturas distribuidas: algunas lecturas pueden hacerse desde nodos secundarios.
+Backups sin afectar producción: los respaldos se hacen desde secundarios sin afectar el rendimiento.
+
+🧩 Sharding - Beneficios resumidos
+
+El sharding es una técnica para distribuir los datos de una colección en varios servidores, llamados shards, basándose en una clave de partición.
+
+
+Escalabilidad horizontal: distribuye datos y operaciones entre varios servidores.
+Mejor rendimiento: las consultas son más rápidas al trabajar con porciones de datos.
+Mayor capacidad de almacenamiento: aprovecha el espacio total de múltiples máquinas.
+Carga balanceada: los datos se reparten equitativamente si la clave de partición es adecuada.
 */

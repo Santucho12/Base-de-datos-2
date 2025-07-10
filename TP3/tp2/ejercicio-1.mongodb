@@ -1,0 +1,21 @@
+use("tp3");
+db.productos.aggregate([
+  {
+    $match: {
+      $and: [{ precio: { $gt: 500 } }, { categoria: "Electrónica" }],
+    },
+  },
+]);
+
+//B
+use("tp3");
+db.ventas.aggregate([
+  {
+    $match: {
+      "cliente.pais": "España",
+      estado: "Entregado",
+    },
+  },
+]);
+
+

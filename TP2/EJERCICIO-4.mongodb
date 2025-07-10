@@ -1,16 +1,14 @@
-use('empresa');
-
-/*
+use("empresa3");
+db.empleados.find()
 db.empleados.updateMany(
-    {},
-        { $set:{
-            direccion:{
-                ciudad:"Buenos Aires",
-                calle:"Av. Corrientes",
-                numero:1234
-            }
-        }
-    }
-);*/
-
-db.empleados.find();
+  {},
+  {
+    $set: {
+      direccion: {
+        calle: "darregueira",
+        ciudad: "bahia blanca",
+        codigoPostal: "8000",
+      },
+    },
+  }
+);
