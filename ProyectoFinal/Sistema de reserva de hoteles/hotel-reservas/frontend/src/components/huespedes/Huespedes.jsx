@@ -146,7 +146,7 @@ function Huespedes() {
           <table className="habitacion-table">
             <thead>
               <tr>
-                <th>ID</th>
+                {/* <th>ID</th> */}
                 <th>Nombre</th>
                 <th>Apellido</th>
                 <th>Email</th>
@@ -159,7 +159,7 @@ function Huespedes() {
             <tbody>
               {huespedes.map((h) => (
                 <tr key={h._id} className="fila-normal">
-                  <td>{h._id}</td>
+                  {/* <td>{h._id}</td> */}
                   <td>{h.nombre}</td>
                   <td>{h.apellido}</td>
                   <td>{h.email}</td>

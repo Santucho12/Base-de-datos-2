@@ -138,10 +138,10 @@ function Habitaciones() {
 
         {/* Tabla */}
         <div style={{overflowX:'auto'}}>
-        <table style={{width:'100%',background:'#fff',borderRadius:12,boxShadow:'0 4px 24px #0008',marginTop:8,border:'2px solid #e0e0e0'}}>
-          <thead style={{background:'#f4f6fb'}}>
+        <table className="habitacion-table">
+          <thead >
             <tr>
-              <th>ID</th>
+              {/* <th>ID</th> */}
               <th>Número</th>
               <th>Tipo</th>
               <th>Capacidad</th>
@@ -154,7 +154,7 @@ function Habitaciones() {
           <tbody>
             {habitaciones.map(h=>(
               <tr key={h._id} className={`fila-${h.estado}`}>
-                <td>{h._id}</td>
+                {/* <td>{h._id}</td> */}
                 <td>{h.numero}</td>
                 <td>{h.tipo}</td>
                 <td>{h.capacidad}</td>

@@ -129,14 +129,14 @@ function Reservas() {
         </form>
         {mensaje && <p style={{color:'#1976d2', marginTop:'0.5rem'}}>{mensaje}</p>}
         <div style={{overflowX:'auto'}}>
-        <table style={{width:'100%',background:'#fff',borderRadius:12,boxShadow:'0 2px 8px #0001',marginTop:8}}>
-          <thead style={{background:'#f4f6fb'}}>
-            <tr><th>ID</th><th>Habitación</th><th>Huésped</th><th>Documento</th><th>Ingreso</th><th>Egreso</th><th>Estado</th><th>Acciones</th></tr>
+          <table className="habitacion-table">
+          <thead >
+            <tr>{/* <th>ID</th> */}<th>Habitación</th><th>Huésped</th><th>Documento</th><th>Ingreso</th><th>Egreso</th><th>Estado</th><th>Acciones</th></tr>
           </thead>
           <tbody>
             {reservas.map(r=>(
               <tr key={r._id}>
-                <td>{r._id}</td>
+                {/* <td>{r._id}</td> */}
                 <td>{r.habitacion?.numero || habitaciones.find(h=>h._id===r.habitacion)?.numero || r.habitacion}</td>
                 <td>{r.huesped?.nombre} {r.huesped?.apellido}</td>
                 <td>{r.huesped?.documento}</td>

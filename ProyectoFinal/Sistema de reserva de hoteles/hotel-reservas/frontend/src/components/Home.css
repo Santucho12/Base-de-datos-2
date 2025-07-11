@@ -353,39 +353,40 @@ body {
   gap: 1rem;
   margin-top: 0.5rem;
 }
-/* Tablas sólidas y visibles */
+/* Tablas con colores modernos y agradables */
 table {
-  background: #15ff00 !important;
+  background: #f4f8fb !important;
   border-radius: 14px !important;
-  box-shadow: 0 4px 24px #0008 !important;
-  border: 2px solid #1976d2 !important;
+  box-shadow: 0 4px 24px #0002 !important;
+  border: 2px solid #667eea !important;
 }
 thead {
-  background: #2160ff !important;
-  color: #222 !important;
+  background: linear-gradient(90deg, #667eea 60%, #64b6ff 100%) !important;
+  color: #fff !important;
   font-weight: bold !important;
 }
 tbody tr {
-  background: #ff0000 !important;
+  background: #eaf1fb !important;
+  transition: background 0.2s;
 }
 tbody tr:nth-child(even) {
-  background: #f8fafc !important;
+  background: #f7fbff !important;
 }
 td, th {
-  border-bottom: 1px solid #f0f0f0;
+  border-bottom: 1px solid #e3e8ee;
   padding: 0.7rem 0.5rem;
 }
 .fila-disponible {
-  background-color: #c8e6c9 !important;
-  color: #111 !important;
+  background-color: #d1f5e0 !important;
+  color: #217a4a !important;
 }
 .fila-ocupada {
-  background-color: #ffeaea !important;
-  color: #111 !important;
+  background-color: #ffe0e6 !important;
+  color: #b71c1c !important;
 }
 .fila-mantenimiento {
-  background-color: #fffbe6 !important;
-  color: #111 !important;
+  background-color: #fff9e5 !important;
+  color: #bfa100 !important;
 }
 @media (max-width: 1200px) {
   .stats-section,
@@ -428,34 +429,35 @@ td, th {
   .activity-item {
     flex-direction: column;
     text-align: center;
-    
+
   }
 }
 .habitacion-table {
   width: 100%;
-  background: #f1a3a3;
+  background: #f4f8fb;
   border-radius: 14px;
-  box-shadow: 0 4px 24px #0008;
-  border: 2px solid #1976d2;
+  box-shadow: 0 4px 24px #0002;
+  border: 2px solid #667eea;
   margin-top: 8px;
 }
 
 .habitacion-table thead {
-  background: #10171f;
-  color: #111;
+  background: linear-gradient(90deg, #667eea 60%, #64b6ff 100%);
+  color: #fff;
 }
 
 .habitacion-table tbody tr {
-  background: #f42e2e;
+  background: #eaf1fb;
+  transition: background 0.2s;
 }
 
 .habitacion-table tbody tr:nth-child(even) {
-  background: #0080ff;
+  background: #f7fbff;
 }
 
 .habitacion-table td,
 .habitacion-table th {
   padding: 0.75rem;
-  border-bottom: 1px solid #ccc;
-  color: #111;
+  border-bottom: 1px solid #e3e8ee;
+  color: #2c3e50;
 }
