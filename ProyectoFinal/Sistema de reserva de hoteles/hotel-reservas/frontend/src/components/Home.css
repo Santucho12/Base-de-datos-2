@@ -380,11 +380,11 @@ td, th {
   background-color: #d1f5e0 !important;
   color: #217a4a !important;
 }
-.fila-ocupada {
+.fila-ocupada, .fila-cancelada {
   background-color: #ffe0e6 !important;
   color: #b71c1c !important;
 }
-.fila-mantenimiento {
+.fila-mantenimiento, .fila-finalizada {
   background-color: #fff9e5 !important;
   color: #bfa100 !important;
 }
@@ -434,30 +434,30 @@ td, th {
 }
 .habitacion-table {
   width: 100%;
-  background: #f4f8fb;
-  border-radius: 14px;
-  box-shadow: 0 4px 24px #0002;
-  border: 2px solid #667eea;
+  background: #f4f8fb !important;
+  border-radius: 14px !important;
+  box-shadow: 0 4px 24px #1976d222 !important;
+  border: 2px solid #1976d2 !important;
   margin-top: 8px;
+  overflow: hidden;
 }
 
 .habitacion-table thead {
-  background: linear-gradient(90deg, #667eea 60%, #64b6ff 100%);
-  color: #fff;
+  background: linear-gradient(90deg, #1976d2 60%, #42a5f5 100%) !important;
+  color: #fff !important;
+}
+
+.habitacion-table th, .habitacion-table td {
+  padding: 0.75rem;
+  border-bottom: 1px solid #e3e8ee;
+  color: #2c3e50;
 }
 
 .habitacion-table tbody tr {
-  background: #eaf1fb;
+  background: #eaf1fb !important;
   transition: background 0.2s;
 }
 
 .habitacion-table tbody tr:nth-child(even) {
-  background: #f7fbff;
-}
-
-.habitacion-table td,
-.habitacion-table th {
-  padding: 0.75rem;
-  border-bottom: 1px solid #e3e8ee;
-  color: #2c3e50;
+  background: #f7fbff !important;
 }
