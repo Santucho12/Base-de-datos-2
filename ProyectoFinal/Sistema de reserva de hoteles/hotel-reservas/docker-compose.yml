@@ -10,5 +10,29 @@ services:
     volumes:
       - mongo_data:/data/db
 
+  backend:
+    build: ./backend
+    container_name: backend_hotel
+    restart: always
+    ports:
+      - "4000:4000"
+    environment:
+      - MONGODB_URI=mongodb://mongo:27017/hotel
+    depends_on:
+      - mongo
+    volumes:
+      - ./backend:/app
+
+  frontend:
+    build: ./frontend
+    container_name: frontend_hotel
+    restart: always
+    ports:
+      - "5173:5173"
+    depends_on:
+      - backend
+    # volumes:
+    #   - ./frontend:/app
+
 volumes:
   mongo_data:

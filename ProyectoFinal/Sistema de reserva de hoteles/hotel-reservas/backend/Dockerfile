@@ -1,5 +1,5 @@
 # Usar imagen oficial de Node.js
-FROM node:18-alpine
+FROM node:20-alpine
 
 # Crear directorio de trabajo
 WORKDIR /app
@@ -8,13 +8,13 @@ WORKDIR /app
 COPY package*.json ./
 
 # Instalar dependencias
-RUN npm install
+RUN npm install && npm install joi
 
 # Copiar el resto del código fuente
 COPY . .
 
 # Exponer el puerto (ajusta si usas otro)
-EXPOSE 3001
+EXPOSE 4000
 
 # Comando para iniciar la app
-CMD ["npm", "start"]
+CMD ["node", "src/index.js"]

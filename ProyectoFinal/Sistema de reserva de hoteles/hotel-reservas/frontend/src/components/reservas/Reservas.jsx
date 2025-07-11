@@ -5,13 +5,13 @@ import '../Home.css';
 function Reservas() {
   const [reservas, setReservas] = useState([]);
   const [habitacionId, setHabitacionId] = useState('');
-  const [nombre, setNombre] = useState('');
-  const [email, setEmail] = useState('');
-  const [telefono, setTelefono] = useState('');
-  const [fechaEntrada, setFechaEntrada] = useState('');
-  const [fechaSalida, setFechaSalida] = useState('');
+  const [huespedId, setHuespedId] = useState('');
+  const [fechaIngreso, setFechaIngreso] = useState('');
+  const [fechaEgreso, setFechaEgreso] = useState('');
+  const [estado, setEstado] = useState('activa');
   const [mensaje, setMensaje] = useState('');
   const [habitaciones, setHabitaciones] = useState([]);
+  const [huespedes, setHuespedes] = useState([]);
   const [editId, setEditId] = useState(null);
 
   const total = reservas.length;
@@ -24,34 +24,36 @@ function Reservas() {
     const res = await api.get('/habitaciones');
     setHabitaciones(res.data);
   };
+  const cargarHuespedes = async () => {
+    const res = await api.get('/huespedes');
+    setHuespedes(res.data);
+  };
 
   useEffect(() => {
     cargarReservas();
     cargarHabitaciones();
+    cargarHuespedes();
   }, []);
 
   const limpiarForm = () => {
-    setHabitacionId(''); setNombre(''); setEmail(''); setTelefono(''); setFechaEntrada(''); setFechaSalida(''); setEditId(null);
+    setHabitacionId(''); setHuespedId(''); setFechaIngreso(''); setFechaEgreso(''); setEstado('activa'); setEditId(null);
   };
 
   const crearReserva = async (e) => {
     e.preventDefault();
     try {
+      const data = {
+        habitacion: habitacionId,
+        huesped: huespedId,
+        fechaIngreso,
+        fechaEgreso,
+        estado
+      };
       if (editId) {
-        await api.put(`/reservas/${editId}`, {
-          habitacionId,
-          huesped: { nombre, email, telefono },
-          fechaEntrada,
-          fechaSalida
-        });
+        await api.put(`/reservas/${editId}`, data);
         setMensaje('Reserva actualizada');
       } else {
-        await api.post('/reservas', {
-          habitacionId,
-          huesped: { nombre, email, telefono },
-          fechaEntrada,
-          fechaSalida
-        });
+        await api.post('/reservas', data);
         setMensaje('Reserva creada');
       }
       limpiarForm();
@@ -70,12 +72,11 @@ function Reservas() {
 
   const editarReserva = (r) => {
     setEditId(r._id);
-    setHabitacionId(r.habitacionId);
-    setNombre(r.huesped?.nombre || '');
-    setEmail(r.huesped?.email || '');
-    setTelefono(r.huesped?.telefono || '');
-    setFechaEntrada(r.fechaEntrada?.slice(0,10) || '');
-    setFechaSalida(r.fechaSalida?.slice(0,10) || '');
+    setHabitacionId(r.habitacion?._id || r.habitacion);
+    setHuespedId(r.huesped?._id || r.huesped);
+    setFechaIngreso(r.fechaIngreso ? r.fechaIngreso.slice(0,10) : '');
+    setFechaEgreso(r.fechaEgreso ? r.fechaEgreso.slice(0,10) : '');
+    setEstado(r.estado || 'activa');
   };
 
   return (
@@ -88,35 +89,60 @@ function Reservas() {
         <div className="stats-section">
           <div className="stat-card"><div className="stat-icon">📅</div><div className="stat-info"><h3>{total}</h3><p>Reservas</p></div></div>
         </div>
-        <form onSubmit={crearReserva} style={{display:'flex',gap:12,flexWrap:'wrap',marginBottom:24,alignItems:'center'}}>
-          <select value={habitacionId} onChange={e=>setHabitacionId(e.target.value)} required style={{flex:2,minWidth:120}}>
-            <option value="">Habitación</option>
-            {habitaciones.map(h=>(<option key={h._id} value={h._id}>{h.numero} - {h.tipo}</option>))}
-          </select>
-          <input placeholder="Nombre huésped" value={nombre} onChange={e=>setNombre(e.target.value)} required style={{flex:2,minWidth:120}}/>
-          <input placeholder="Email" value={email} onChange={e=>setEmail(e.target.value)} required style={{flex:2,minWidth:120}}/>
-          <input placeholder="Teléfono" value={telefono} onChange={e=>setTelefono(e.target.value)} required style={{flex:1,minWidth:100}}/>
-          <input type="date" value={fechaEntrada} onChange={e=>setFechaEntrada(e.target.value)} required style={{flex:1,minWidth:120}}/>
-          <input type="date" value={fechaSalida} onChange={e=>setFechaSalida(e.target.value)} required style={{flex:1,minWidth:120}}/>
-          <button className="action-btn" type="submit">{editId ? 'Actualizar' : 'Reservar'}</button>
-          {editId && <button type="button" className="action-btn secondary" onClick={limpiarForm}>Cancelar</button>}
+        <form onSubmit={crearReserva} className="form-modern">
+          <div className="form-row">
+            <label>
+              Habitación
+              <select value={habitacionId} onChange={e=>setHabitacionId(e.target.value)} required>
+                <option value="">Selecciona habitación</option>
+                {habitaciones.map(h=>(<option key={h._id} value={h._id}>{h.numero} - {h.tipo}</option>))}
+              </select>
+            </label>
+            <label>
+              Huésped
+              <select value={huespedId} onChange={e=>setHuespedId(e.target.value)} required>
+                <option value="">Selecciona huésped</option>
+                {huespedes.map(h=>(<option key={h._id} value={h._id}>{h.nombre} {h.apellido} - {h.documento}</option>))}
+              </select>
+            </label>
+            <label>
+              Fecha ingreso
+              <input type="date" value={fechaIngreso} onChange={e=>setFechaIngreso(e.target.value)} required />
+            </label>
+            <label>
+              Fecha egreso
+              <input type="date" value={fechaEgreso} onChange={e=>setFechaEgreso(e.target.value)} required />
+            </label>
+            <label>
+              Estado
+              <select value={estado} onChange={e=>setEstado(e.target.value)} required>
+                <option value="activa">Activa</option>
+                <option value="finalizada">Finalizada</option>
+                <option value="cancelada">Cancelada</option>
+              </select>
+            </label>
+          </div>
+          <div className="form-actions">
+            <button className="action-btn" type="submit">{editId ? 'Actualizar' : 'Reservar'}</button>
+            {editId && <button type="button" className="action-btn secondary" onClick={limpiarForm}>Cancelar</button>}
+          </div>
         </form>
         {mensaje && <p style={{color:'#1976d2', marginTop:'0.5rem'}}>{mensaje}</p>}
         <div style={{overflowX:'auto'}}>
         <table style={{width:'100%',background:'#fff',borderRadius:12,boxShadow:'0 2px 8px #0001',marginTop:8}}>
           <thead style={{background:'#f4f6fb'}}>
-            <tr><th>ID</th><th>Habitación</th><th>Huésped</th><th>Email</th><th>Teléfono</th><th>Entrada</th><th>Salida</th><th>Acciones</th></tr>
+            <tr><th>ID</th><th>Habitación</th><th>Huésped</th><th>Documento</th><th>Ingreso</th><th>Egreso</th><th>Estado</th><th>Acciones</th></tr>
           </thead>
           <tbody>
             {reservas.map(r=>(
               <tr key={r._id}>
                 <td>{r._id}</td>
-                <td>{habitaciones.find(h=>h._id===r.habitacionId)?.numero || r.habitacionId}</td>
-                <td>{r.huesped?.nombre}</td>
-                <td>{r.huesped?.email}</td>
-                <td>{r.huesped?.telefono}</td>
-                <td>{r.fechaEntrada?.slice(0,10)}</td>
-                <td>{r.fechaSalida?.slice(0,10)}</td>
+                <td>{r.habitacion?.numero || habitaciones.find(h=>h._id===r.habitacion)?.numero || r.habitacion}</td>
+                <td>{r.huesped?.nombre} {r.huesped?.apellido}</td>
+                <td>{r.huesped?.documento}</td>
+                <td>{r.fechaIngreso ? r.fechaIngreso.slice(0,10) : ''}</td>
+                <td>{r.fechaEgreso ? r.fechaEgreso.slice(0,10) : ''}</td>
+                <td>{r.estado}</td>
                 <td style={{display:'flex',gap:6}}>
                   <button className="action-btn tertiary" onClick={()=>editarReserva(r)}>Editar</button>
                   <button className="action-btn secondary" onClick={()=>eliminarReserva(r._id)}>Eliminar</button>

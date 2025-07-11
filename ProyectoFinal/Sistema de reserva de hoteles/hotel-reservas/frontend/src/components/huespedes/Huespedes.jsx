@@ -1,12 +1,15 @@
 import React, { useEffect, useState } from 'react';
 import api from '../../api';
 import '../Home.css';
+
 function Huespedes() {
   const [huespedes, setHuespedes] = useState([]);
   const [nombre, setNombre] = useState('');
+  const [apellido, setApellido] = useState('');
   const [email, setEmail] = useState('');
   const [telefono, setTelefono] = useState('');
   const [documento, setDocumento] = useState('');
+  const [fechaNacimiento, setFechaNacimiento] = useState('');
   const [mensaje, setMensaje] = useState('');
   const [editId, setEditId] = useState(null);
 
@@ -22,28 +25,48 @@ function Huespedes() {
   }, []);
 
   const limpiarForm = () => {
-    setNombre(''); setEmail(''); setTelefono(''); setDocumento(''); setEditId(null);
+    setNombre('');
+    setApellido('');
+    setEmail('');
+    setTelefono('');
+    setDocumento('');
+    setFechaNacimiento('');
+    setEditId(null);
   };
 
   const crearHuesped = async (e) => {
     e.preventDefault();
     try {
+      const data = {
+        nombre,
+        apellido,
+        email,
+        telefono,
+        documento,
+        fechaNacimiento: fechaNacimiento || null,
+      };
       if (editId) {
-        await api.put(`/huespedes/${editId}`, { nombre, email, telefono, documento });
+        await api.put(`/huespedes/${editId}`, data);
         setMensaje('Huésped actualizado');
       } else {
-        await api.post('/huespedes', { nombre, email, telefono, documento });
+        await api.post('/huespedes', data);
         setMensaje('Huésped registrado');
       }
       limpiarForm();
       cargarHuespedes();
-    } catch {
-      setMensaje('Error al guardar huésped');
+    } catch (err) {
+      if (err.response?.data?.message) {
+        setMensaje('Error: ' + err.response.data.message);
+      } else if (err.message) {
+        setMensaje('Error: ' + err.message);
+      } else {
+        setMensaje('Error al guardar huésped');
+      }
     }
   };
 
   const eliminarHuesped = async (id) => {
-    if(window.confirm('¿Eliminar huésped?')) {
+    if (window.confirm('¿Eliminar huésped?')) {
       await api.delete(`/huespedes/${id}`);
       cargarHuespedes();
     }
@@ -52,9 +75,11 @@ function Huespedes() {
   const editarHuesped = (h) => {
     setEditId(h._id);
     setNombre(h.nombre);
+    setApellido(h.apellido);
     setEmail(h.email);
     setTelefono(h.telefono);
     setDocumento(h.documento);
+    setFechaNacimiento(h.fechaNacimiento ? h.fechaNacimiento.slice(0, 10) : '');
   };
 
   return (
@@ -64,39 +89,95 @@ function Huespedes() {
           <h2 className="main-title">👥 Gestión de Huéspedes</h2>
           <p className="main-description">Administra huéspedes registrados y su información.</p>
         </div>
+
         <div className="stats-section">
-          <div className="stat-card"><div className="stat-icon">👥</div><div className="stat-info"><h3>{total}</h3><p>Registrados</p></div></div>
+          <div className="stat-card">
+            <div className="stat-icon">👥</div>
+            <div className="stat-info">
+              <h3>{total}</h3>
+              <p>Registrados</p>
+            </div>
+          </div>
         </div>
-        <form onSubmit={crearHuesped} style={{display:'flex',gap:12,flexWrap:'wrap',marginBottom:24,alignItems:'center'}}>
-          <input placeholder="Nombre" value={nombre} onChange={e=>setNombre(e.target.value)} required style={{flex:2,minWidth:120}}/>
-          <input placeholder="Email" value={email} onChange={e=>setEmail(e.target.value)} required style={{flex:2,minWidth:120}}/>
-          <input placeholder="Teléfono" value={telefono} onChange={e=>setTelefono(e.target.value)} required style={{flex:1,minWidth:100}}/>
-          <input placeholder="Documento" value={documento} onChange={e=>setDocumento(e.target.value)} required style={{flex:1,minWidth:100}}/>
-          <button className="action-btn" type="submit">{editId ? 'Actualizar' : 'Registrar'}</button>
-          {editId && <button type="button" className="action-btn secondary" onClick={limpiarForm}>Cancelar</button>}
+
+        <form onSubmit={crearHuesped} className="form-modern">
+          <div className="form-row">
+            <label>
+              Nombre
+              <input placeholder="Nombre" value={nombre} onChange={(e) => setNombre(e.target.value)} required />
+            </label>
+            <label>
+              Apellido
+              <input placeholder="Apellido" value={apellido} onChange={(e) => setApellido(e.target.value)} required />
+            </label>
+            <label>
+              Email
+              <input placeholder="Email" value={email} onChange={(e) => setEmail(e.target.value)} required type="email" />
+            </label>
+            <label>
+              Teléfono
+              <input placeholder="Teléfono" value={telefono} onChange={(e) => setTelefono(e.target.value)} />
+            </label>
+            <label>
+              Documento
+              <input placeholder="Documento" value={documento} onChange={(e) => setDocumento(e.target.value)} />
+            </label>
+            <label>
+              Fecha de nacimiento
+              <input type="date" value={fechaNacimiento} onChange={(e) => setFechaNacimiento(e.target.value)} />
+            </label>
+          </div>
+
+          <div className="form-actions">
+            <button className="action-btn" type="submit">
+              {editId ? 'Actualizar' : 'Registrar'}
+            </button>
+            {editId && (
+              <button type="button" className="action-btn secondary" onClick={limpiarForm}>
+                Cancelar
+              </button>
+            )}
+          </div>
         </form>
-        {mensaje && <p style={{color:'#1976d2', marginTop:'0.5rem'}}>{mensaje}</p>}
-        <div style={{overflowX:'auto'}}>
-        <table style={{width:'100%',background:'#fff',borderRadius:12,boxShadow:'0 2px 8px #0001',marginTop:8}}>
-          <thead style={{background:'#f4f6fb'}}>
-            <tr><th>ID</th><th>Nombre</th><th>Email</th><th>Teléfono</th><th>Documento</th><th>Acciones</th></tr>
-          </thead>
-          <tbody>
-            {huespedes.map(h=>(
-              <tr key={h._id}>
-                <td>{h._id}</td>
-                <td>{h.nombre}</td>
-                <td>{h.email}</td>
-                <td>{h.telefono}</td>
-                <td>{h.documento}</td>
-                <td style={{display:'flex',gap:6}}>
-                  <button className="action-btn tertiary" onClick={()=>editarHuesped(h)}>Editar</button>
-                  <button className="action-btn secondary" onClick={()=>eliminarHuesped(h._id)}>Eliminar</button>
-                </td>
+
+        {mensaje && <p className="mensaje" style={{marginTop: 10, color: mensaje.startsWith('Error') ? 'red' : 'green'}}>{mensaje}</p>}
+
+        <div style={{ overflowX: 'auto' }}>
+          <table className="habitacion-table">
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Nombre</th>
+                <th>Apellido</th>
+                <th>Email</th>
+                <th>Teléfono</th>
+                <th>Documento</th>
+                <th>Fecha Nac.</th>
+                <th>Acciones</th>
               </tr>
-            ))}
-          </tbody>
-        </table>
+            </thead>
+            <tbody>
+              {huespedes.map((h) => (
+                <tr key={h._id} className="fila-normal">
+                  <td>{h._id}</td>
+                  <td>{h.nombre}</td>
+                  <td>{h.apellido}</td>
+                  <td>{h.email}</td>
+                  <td>{h.telefono}</td>
+                  <td>{h.documento}</td>
+                  <td>{h.fechaNacimiento ? h.fechaNacimiento.slice(0, 10) : ''}</td>
+                  <td style={{ display: 'flex', gap: 6 }}>
+                    <button className="action-btn tertiary" onClick={() => editarHuesped(h)}>
+                      Editar
+                    </button>
+                    <button className="action-btn secondary" onClick={() => eliminarHuesped(h._id)}>
+                      Eliminar
+                    </button>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
         </div>
       </div>
     </div>
